@@ -1,11 +1,15 @@
 import React, { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import "./App.css";
 import Products from "./components/Products";
 import { Footer } from "./components/Footer";
 import CartModal from "./components/CartModal";
+import { initialProducts } from "./data/mockData";
 
 function App() {
+  const [productos, setProductos] = useState(initialProducts);
+  const [categories, setCategories] = useState(["RELOJES", "AURICULARES", "CARGADORES", "CABLES"]);
   const [cartItems, setCartItems] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -35,25 +39,48 @@ function App() {
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
-    <div className="min-h-screen flex bg-white text-gray-800 font-sans">
-      <div className="flex-1 flex flex-col">
-        <NavBar cartCount={cartCount} onOpenCart={() => setIsCartOpen(true)} />
-        <main className="flex-grow">
-          <Products addToCart={addToCart} />
-        </main>
-        <Footer />
-      </div>
+    <BrowserRouter>
+      <div className="min-h-screen flex bg-white text-gray-800 font-sans">
+        <div className="flex-1 flex flex-col">
+          <NavBar cartCount={cartCount} onOpenCart={() => setIsCartOpen(true)} />
+          <main className="flex-grow">
+            <Routes>
+              <Route path="/" element={
+                <Products
+                  addToCart={addToCart}
+                  productos={productos}
+                  setProductos={setProductos}
+                  categories={categories}
+                  setCategories={setCategories}
+                  isAdmin={false}
+                />
+              } />
+              <Route path="/admin" element={
+                <Products
+                  addToCart={addToCart}
+                  productos={productos}
+                  setProductos={setProductos}
+                  categories={categories}
+                  setCategories={setCategories}
+                  isAdmin={true}
+                />
+              } />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
 
-      {isCartOpen && (
-        <CartModal
-          cartItems={cartItems}
-          onClose={() => setIsCartOpen(false)}
-          onRemove={removeFromCart}
-          onUpdateQuantity={updateQuantity}
-          onClearCart={() => setCartItems([])}
-        />
-      )}
-    </div>
+        {isCartOpen && (
+          <CartModal
+            cartItems={cartItems}
+            onClose={() => setIsCartOpen(false)}
+            onRemove={removeFromCart}
+            onUpdateQuantity={updateQuantity}
+            onClearCart={() => setCartItems([])}
+          />
+        )}
+      </div>
+    </BrowserRouter>
   );
 }
 

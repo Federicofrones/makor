@@ -1,104 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Reloj from "../assets/H9Negro.jpeg";
-import Reloj2 from "../assets/reloj1.jpg";
-import Cargador from "../assets/cargador1.jpg";
-import Cargador2 from "../assets/cargador2.jpg";
-import Auriculares from "../assets/S90.jpeg";
-import Auriculares2 from "../assets/S90N.jpeg";
-import AuriCable from "../assets/AuriC.jpeg";
-import CargadorC from "../assets/CargadorC.jpeg";
-import CargadorC1 from "../assets/CargadorC1.jpeg";
-import CargadorIphone from "../assets/CargadorIphonepro.jpg";
-import CargadorIph from "../assets/CargadorIph.jpeg";
-import D18 from "../assets/D18.jpeg";
-import D18a from "../assets/d18A.jpeg";
-import En1P from "../assets/3En1P.jpeg";
 import { IoClose, IoBagHandleOutline, IoCreateOutline, IoTrashOutline, IoCheckmarkOutline, IoAddOutline } from "react-icons/io5";
 
-const initialProducts = [
-  {
-    id: 1,
-    titulo: "Reloj Inteligente H9 Promax Smart Watch",
-    imagen: Reloj,
-    imagenes: [Reloj2, Reloj],
-    precio: 1380,
-    categoria: "RELOJES",
-    descripcion:
-      "Reloj con múltiples funciones, H9 PRO MAX Smart Watch Serie 9 BT Llamadas Cargador inalámbrico Hombres Mujeres Sport Fitness",
-  },
-  {
-    id: 2,
-    titulo: "Auriculares Bluetooth X2 Pro",
-    imagen: Auriculares,
-    imagenes: [Auriculares2, Auriculares],
-    precio: 790,
-    categoria: "AURICULARES",
-    descripcion:
-      "Auriculares inalámbricos S90 TWS Premium con Bluetooth 5.3, sonido estéreo HiFi y micrófono dual con reducción de ruido. Ofrecen hasta 4 horas de música, carga rápida en 1 hora y 200 horas en espera. Disponibles en blanco, negro y rosa. Compactos, con control táctil y llamadas binaurales.",
-  },
-  {
-    id: 3,
-    titulo: "Cargador 3 en 1 Rápido 20W",
-    imagen: Cargador,
-    imagenes: [Cargador2, Cargador],
-    precio: 230,
-    categoria: "CARGADORES",
-    descripcion:
-      "Paquete de caja 120W Aleación de zinc Uno a tres, Cable DE DATOS Carga súper rápida Interfaz tres en uno Cable de carga de teléfono 1,2 m.",
-  },
-  {
-    id: 4,
-    titulo: "AuriCable",
-    imagen: AuriCable,
-    imagenes: [AuriCable],
-    precio: 0,
-    categoria: "CABLES",
-    descripcion: "Auriculares cableados, puerto AUX, Color Blanco y Negro",
-  },
-  {
-    id: 5,
-    titulo: "Ficha + Cable Tipo C Carga Rapida",
-    imagen: CargadorC,
-    imagenes: [CargadorC1, CargadorC],
-    precio: 0,
-    categoria: "CARGADORES",
-    descripcion:
-      "Cargador de 27W y cable de datos de 6A, Cargador Super Flash 27W",
-  },
-  {
-    id: 6,
-    titulo: "Ficha + Cable para Iphone Lightning",
-    imagen: CargadorIphone,
-    imagenes: [CargadorIph, CargadorIphone],
-    precio: 0,
-    categoria: "CARGADORES",
-    descripcion: "Cargador de 10.5W , Cargador Super Flash",
-  },
-  {
-    id: 7,
-    titulo: "Reloj Inteligente D18",
-    imagen: D18a,
-    imagenes: [D18, D18a],
-    precio: 0,
-    categoria: "RELOJES",
-    descripcion:
-      "Reloj inteligente impermeable podómetro rastreador de actividad reloj inteligente con presión arterial oxígeno en sangre",
-  },
-  {
-    id: 8,
-    titulo: "Cargador 3 en 1 Rápido Premium",
-    imagen: En1P,
-    imagenes: [En1P],
-    precio: 0,
-    categoria: "CARGADORES",
-    descripcion:
-      "Cable de datos de uno a tres de aleación de zinc de 120W Carga súper rápida interfaz tres en uno",
-  },
-];
-
-const Products = ({ addToCart }) => {
-  const [productos, setProductos] = useState(initialProducts);
-  const [categories, setCategories] = useState(["RELOJES", "AURICULARES", "CARGADORES", "CABLES"]);
+const Products = ({ addToCart, productos, setProductos, categories, setCategories, isAdmin }) => {
   const [activeCategory, setActiveCategory] = useState("VER TODO");
 
   const [isManagingCats, setIsManagingCats] = useState(false);
@@ -166,39 +69,39 @@ const Products = ({ addToCart }) => {
   const displayedProducts = productos.filter(p => activeCategory === "VER TODO" || p.categoria === activeCategory);
 
   return (
-    <section className="px-8 py-10 max-w-[1400px] mx-auto w-full">
-      <div className="flex flex-col md:flex-row gap-16 lg:gap-24">
+    <section className="px-4 md:px-8 py-6 md:py-10 max-w-[1400px] mx-auto w-full">
+      <div className="flex flex-col-reverse md:flex-row gap-8 md:gap-16 lg:gap-24">
         {/* Left Column - Offers */}
         <div className="flex-1">
-          <div className="flex items-center gap-4 mb-10 pb-4 border-b border-gray-100">
+          <div className="hidden md:flex items-center gap-4 mb-10 pb-4 border-b border-gray-100">
             <h2 className="text-4xl font-black text-gray-800 tracking-tight">CATÁLOGO</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
             {displayedProducts.length > 0 ? displayedProducts.map((producto) => (
               <div
                 key={producto.id}
                 onClick={() => handleOpenProduct(producto)}
                 className="group cursor-pointer flex flex-col"
               >
-                <div className="bg-[#f0f0f0] aspect-square flex items-center justify-center p-8 relative overflow-hidden transition-colors">
+                <div className="bg-[#f0f0f0] aspect-square flex items-center justify-center p-6 relative overflow-hidden transition-colors">
                   <img
                     src={producto.imagen}
                     alt={producto.titulo}
                     className="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute bottom-6 left-6 flex items-stretch shadow-md">
-                    <div className="bg-orange-500 text-white p-2.5 flex items-center justify-center">
+                  <div className="absolute bottom-4 left-4 flex items-stretch shadow-md">
+                    <div className="bg-orange-500 text-white p-2 flex items-center justify-center">
                       <IoBagHandleOutline className="text-lg" />
                     </div>
-                    <span className="font-extrabold text-gray-900 bg-white px-3 flex items-center text-sm">${producto.precio}</span>
+                    <span className="font-extrabold text-gray-900 bg-white px-2 flex items-center text-sm">${producto.precio}</span>
                   </div>
                 </div>
-                <div className="mt-4 pr-4">
+                <div className="mt-4 pr-2">
                   <h5 className="text-gray-800 text-[13px] leading-snug font-semibold line-clamp-2 uppercase group-hover:text-orange-500 transition-colors">
                     {producto.titulo}
                   </h5>
-                  {isManagingCats && (
+                  {isAdmin && isManagingCats && (
                     <div className="mt-2 text-[10px] text-gray-400 font-bold uppercase tracking-wider">
                       Categoría actual: {producto.categoria || "Ninguna"}
                     </div>
@@ -206,32 +109,35 @@ const Products = ({ addToCart }) => {
                 </div>
               </div>
             )) : (
-              <div className="col-span-1 md:col-span-2 text-center text-gray-400 py-20 font-bold tracking-widest uppercase">
+              <div className="col-span-1 sm:col-span-2 lg:col-span-3 text-center text-gray-400 py-16 font-bold tracking-widest uppercase">
                 No hay productos en esta sección
               </div>
             )}
           </div>
         </div>
 
-        {/* Right Column - Categories Menu */}
-        <div className="w-full md:w-64 pt-6 lg:pt-20">
-          <nav className="flex flex-col gap-4 text-xs font-bold text-gray-400 uppercase tracking-widest sticky top-32">
-            <div className="flex items-center justify-between mb-4 pb-2 border-b border-gray-100">
-              <span className="text-gray-900 font-extrabold text-sm">SECCIONES</span>
-              <button
-                onClick={() => setIsManagingCats(!isManagingCats)}
-                className={`p-1.5 rounded transition-colors ${isManagingCats ? 'bg-orange-500 text-white' : 'text-orange-500 hover:bg-orange-50'}`}
-                title="Gestionar Secciones"
-              >
-                <IoCreateOutline className="text-lg" />
-              </button>
+        {/* Right Column / Top Mobile - Categories Menu */}
+        <div className="w-full md:w-64 mb-6 md:mb-0 md:pt-6 lg:pt-20">
+          <div className="sticky top-0 md:top-32 bg-white/95 backdrop-blur-sm z-20 py-4 md:py-0 border-b border-gray-100 md:border-b-0">
+            <div className="flex items-center justify-between mb-0 md:mb-4 pb-0 md:pb-2 md:border-b border-gray-100">
+              <span className="text-gray-900 font-extrabold text-sm hidden md:block">SECCIONES</span>
+              <span className="text-gray-900 font-extrabold text-sm md:hidden text-lg tracking-tight">CATÁLOGO</span>
+              {isAdmin && (
+                <button
+                  onClick={() => setIsManagingCats(!isManagingCats)}
+                  className={`p-1.5 rounded transition-colors ${isManagingCats ? 'bg-orange-500 text-white' : 'text-orange-500 hover:bg-orange-50'}`}
+                  title="Gestionar Secciones"
+                >
+                  <IoCreateOutline className="text-lg" />
+                </button>
+              )}
             </div>
 
-            {!isManagingCats ? (
-              <>
+            {!isManagingCats || !isAdmin ? (
+              <nav className="flex flex-row md:flex-col gap-6 md:gap-4 overflow-x-auto pt-4 md:pt-0 no-scrollbar text-xs font-bold text-gray-400 uppercase tracking-widest">
                 <button
                   onClick={() => setActiveCategory("VER TODO")}
-                  className={`text-left transition-colors pb-1 w-fit ${activeCategory === "VER TODO" ? "text-orange-500 border-b-2 border-orange-500" : "hover:text-gray-900"}`}
+                  className={`text-left transition-colors pb-2 md:pb-1 w-fit whitespace-nowrap ${activeCategory === "VER TODO" ? "text-orange-500 border-b-2 border-orange-500" : "hover:text-gray-900"}`}
                 >
                   VER TODO
                 </button>
@@ -239,14 +145,14 @@ const Products = ({ addToCart }) => {
                   <button
                     key={cat}
                     onClick={() => setActiveCategory(cat)}
-                    className={`text-left transition-colors pb-1 w-fit ${activeCategory === cat ? "text-orange-500 border-b-2 border-orange-500" : "hover:text-gray-900"}`}
+                    className={`text-left transition-colors pb-2 md:pb-1 w-fit whitespace-nowrap ${activeCategory === cat ? "text-orange-500 border-b-2 border-orange-500" : "hover:text-gray-900"}`}
                   >
                     {cat}
                   </button>
                 ))}
-              </>
+              </nav>
             ) : (
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-3 mt-4">
                 <p className="text-[10px] text-gray-400 lowercase normal-case italic mb-2">Edita o elimina secciones existentes. Los productos de secciones eliminadas se moverán a "Otros".</p>
                 {categories.map((cat, i) => (
                   <div key={i} className="flex items-center gap-2">
@@ -256,7 +162,7 @@ const Products = ({ addToCart }) => {
                           type="text"
                           value={editingCatValue}
                           onChange={(e) => setEditingCatValue(e.target.value)}
-                          className="flex-1 w-full border border-orange-500 bg-white px-2 py-1 text-gray-800 outline-none rounded-none"
+                          className="flex-1 w-full border border-orange-500 bg-white px-2 py-1 text-gray-800 outline-none rounded-none text-xs"
                           autoFocus
                         />
                         <button onClick={() => handleSaveCategoryEdit(i)} className="text-green-500 hover:text-green-600 p-1 bg-green-50 rounded"><IoCheckmarkOutline className="text-lg" /></button>
@@ -264,7 +170,7 @@ const Products = ({ addToCart }) => {
                       </>
                     ) : (
                       <>
-                        <span className="flex-1 text-gray-800 truncate" title={cat}>{cat}</span>
+                        <span className="flex-1 text-gray-800 truncate text-xs font-bold" title={cat}>{cat}</span>
                         <button onClick={() => { setEditingCatIndex(i); setEditingCatValue(cat); }} className="text-gray-400 hover:text-orange-500"><IoCreateOutline className="text-lg" /></button>
                         <button onClick={() => handleDeleteCategory(i)} className="text-gray-400 hover:text-red-500"><IoTrashOutline className="text-lg" /></button>
                       </>
@@ -278,14 +184,14 @@ const Products = ({ addToCart }) => {
                     value={newCatValue}
                     onChange={(e) => setNewCatValue(e.target.value)}
                     placeholder="NUEVA SECCIÓN"
-                    className="flex-1 w-full border border-gray-200 bg-gray-50 px-2 py-1.5 text-gray-800 outline-none focus:border-orange-500 rounded-none"
+                    className="flex-1 w-full border border-gray-200 bg-gray-50 px-2 py-1.5 text-gray-800 outline-none focus:border-orange-500 rounded-none text-xs"
                     onKeyDown={(e) => e.key === 'Enter' && handleAddCategory()}
                   />
                   <button onClick={handleAddCategory} className="text-white hover:bg-orange-600 font-bold bg-orange-500 p-1.5 rounded"><IoAddOutline className="text-lg" /></button>
                 </div>
               </div>
             )}
-          </nav>
+          </div>
         </div>
       </div>
 
