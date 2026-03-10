@@ -117,7 +117,7 @@ const Products = ({ addToCart, productos, setProductos, categories, setCategorie
         </div>
 
         {/* Right Column / Top Mobile - Categories Menu */}
-        <div className="w-full md:w-64 mb-6 md:mb-0 md:pt-6 lg:pt-20">
+        <div className="w-full md:w-64 mb-6 md:mb-0 md:pt-6 lg:pt-20 lg:shrink-0 min-w-0 overflow-hidden md:overflow-visible">
           <div className="sticky top-0 md:top-32 bg-white/95 backdrop-blur-sm z-20 py-4 md:py-0 border-b border-gray-100 md:border-b-0">
             <div className="flex items-center justify-between mb-0 md:mb-4 pb-0 md:pb-2 md:border-b border-gray-100">
               <span className="text-gray-900 font-extrabold text-sm hidden md:block">SECCIONES</span>
@@ -134,10 +134,10 @@ const Products = ({ addToCart, productos, setProductos, categories, setCategorie
             </div>
 
             {!isManagingCats || !isAdmin ? (
-              <nav className="flex flex-row md:flex-col gap-6 md:gap-4 overflow-x-auto pt-4 md:pt-0 no-scrollbar text-xs font-bold text-gray-400 uppercase tracking-widest">
+              <nav className="flex flex-row md:flex-col gap-6 md:gap-4 overflow-x-auto pt-4 md:pt-0 text-xs font-bold text-gray-400 uppercase tracking-widest pb-1 w-full max-w-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
                 <button
                   onClick={() => setActiveCategory("VER TODO")}
-                  className={`text-left transition-colors pb-2 md:pb-1 w-fit whitespace-nowrap ${activeCategory === "VER TODO" ? "text-orange-500 border-b-2 border-orange-500" : "hover:text-gray-900"}`}
+                  className={`text-left transition-colors pb-2 md:pb-1 w-fit whitespace-nowrap shrink-0 ${activeCategory === "VER TODO" ? "text-orange-500 border-b-2 border-orange-500" : "hover:text-gray-900"}`}
                 >
                   VER TODO
                 </button>
@@ -145,7 +145,7 @@ const Products = ({ addToCart, productos, setProductos, categories, setCategorie
                   <button
                     key={cat}
                     onClick={() => setActiveCategory(cat)}
-                    className={`text-left transition-colors pb-2 md:pb-1 w-fit whitespace-nowrap ${activeCategory === cat ? "text-orange-500 border-b-2 border-orange-500" : "hover:text-gray-900"}`}
+                    className={`text-left transition-colors pb-2 md:pb-1 w-fit whitespace-nowrap shrink-0 ${activeCategory === cat ? "text-orange-500 border-b-2 border-orange-500" : "hover:text-gray-900"}`}
                   >
                     {cat}
                   </button>

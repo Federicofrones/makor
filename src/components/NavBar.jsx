@@ -1,12 +1,12 @@
 import React from "react";
-import logoMakor from "/makorhorizontalblanco.svg";
+import logoMakor from "/makor horizontal azul.svg";
 import { IoSearchOutline, IoCartOutline } from "react-icons/io5";
 
 const NavBar = ({ cartCount, onOpenCart }) => {
   return (
     <nav className="bg-white h-[90px] flex items-center justify-between px-8 sticky top-0 z-10 w-full border-b border-gray-100">
       <div className="flex items-center">
-        <img src={logoMakor} alt="Logo Makor" className="h-[22px] object-contain invert-[.4] sepia-[1] saturate-[50] hue-rotate-[10deg] brightness-[0.8]" style={{ filter: 'brightness(0) saturate(100%) invert(43%) sepia(87%) saturate(3025%) hue-rotate(346deg) brightness(101%) contrast(106%)' }} />
+        <img src={logoMakor} alt="Logo Makor" className="h-[40px] object-contain" />
       </div>
 
       <div className="flex items-center space-x-8 text-gray-500 ml-auto">
