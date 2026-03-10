@@ -4,9 +4,9 @@ import { IoSearchOutline, IoCartOutline } from "react-icons/io5";
 
 const NavBar = ({ cartCount, onOpenCart }) => {
   return (
-    <nav className="bg-white h-[90px] flex items-center justify-between px-8 sticky top-0 z-10 w-full border-b border-gray-100">
-      <div className="flex items-center">
-        <img src={logoMakor} alt="Logo Makor" className="h-[40px] object-contain" />
+    <nav className="bg-white h-[90px] flex items-center justify-between px-4 md:px-8 sticky top-0 z-10 w-full border-b border-gray-100">
+      <div className="flex items-center shrink-0">
+        <img src={logoMakor} alt="Logo Makor" className="w-[120px] md:w-[200px] h-auto object-contain shrink-0" />
       </div>
 
       <div className="flex items-center space-x-8 text-gray-500 ml-auto">

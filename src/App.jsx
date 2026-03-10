@@ -40,8 +40,8 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="min-h-screen flex bg-white text-gray-800 font-sans">
-        <div className="flex-1 flex flex-col">
+      <div className="min-h-screen flex bg-white text-gray-800 font-sans overflow-x-hidden relative w-full">
+        <div className="flex-1 flex flex-col min-w-0">
           <NavBar cartCount={cartCount} onOpenCart={() => setIsCartOpen(true)} />
           <main className="flex-grow">
             <Routes>

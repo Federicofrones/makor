@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { IoClose, IoBagHandleOutline, IoCreateOutline, IoTrashOutline, IoCheckmarkOutline, IoAddOutline } from "react-icons/io5";
+import { IoClose, IoBagHandleOutline, IoCreateOutline, IoTrashOutline, IoCheckmarkOutline, IoAddOutline, IoChevronDownOutline } from "react-icons/io5";
 
 const Products = ({ addToCart, productos, setProductos, categories, setCategories, isAdmin }) => {
   const [activeCategory, setActiveCategory] = useState("VER TODO");
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
   const [isManagingCats, setIsManagingCats] = useState(false);
   const [editingCatIndex, setEditingCatIndex] = useState(null);
@@ -118,14 +119,22 @@ const Products = ({ addToCart, productos, setProductos, categories, setCategorie
 
         {/* Right Column / Top Mobile - Categories Menu */}
         <div className="w-full md:w-64 mb-6 md:mb-0 md:pt-6 lg:pt-20 lg:shrink-0 min-w-0 overflow-hidden md:overflow-visible">
-          <div className="sticky top-0 md:top-32 bg-white/95 backdrop-blur-sm z-20 py-4 md:py-0 border-b border-gray-100 md:border-b-0">
-            <div className="flex items-center justify-between mb-0 md:mb-4 pb-0 md:pb-2 md:border-b border-gray-100">
+          <div className="sticky top-0 md:top-32 bg-white/95 backdrop-blur-md z-20 py-4 md:py-0 border-b border-gray-100 md:border-b-0">
+            <div className="flex items-center justify-between mb-0 md:mb-4 pb-0 md:pb-2 md:border-b border-gray-100 relative">
               <span className="text-gray-900 font-extrabold text-sm hidden md:block">SECCIONES</span>
-              <span className="text-gray-900 font-extrabold text-sm md:hidden text-lg tracking-tight">CATÁLOGO</span>
+
+              <button
+                onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
+                className="text-gray-900 font-extrabold text-sm md:hidden flex flex-1 items-center justify-between tracking-tight uppercase"
+              >
+                <span>SECCIÓN: {activeCategory}</span>
+                <IoChevronDownOutline className={`text-xl transition-transform ${isMobileNavOpen ? 'rotate-180' : ''}`} />
+              </button>
+
               {isAdmin && (
                 <button
                   onClick={() => setIsManagingCats(!isManagingCats)}
-                  className={`p-1.5 rounded transition-colors ${isManagingCats ? 'bg-orange-500 text-white' : 'text-orange-500 hover:bg-orange-50'}`}
+                  className={`ml-4 p-1.5 rounded transition-colors ${isManagingCats ? 'bg-orange-500 text-white' : 'text-orange-500 hover:bg-orange-50'}`}
                   title="Gestionar Secciones"
                 >
                   <IoCreateOutline className="text-lg" />
@@ -133,64 +142,66 @@ const Products = ({ addToCart, productos, setProductos, categories, setCategorie
               )}
             </div>
 
-            {!isManagingCats || !isAdmin ? (
-              <nav className="flex flex-row md:flex-col gap-6 md:gap-4 overflow-x-auto pt-4 md:pt-0 text-xs font-bold text-gray-400 uppercase tracking-widest pb-1 w-full max-w-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
-                <button
-                  onClick={() => setActiveCategory("VER TODO")}
-                  className={`text-left transition-colors pb-2 md:pb-1 w-fit whitespace-nowrap shrink-0 ${activeCategory === "VER TODO" ? "text-orange-500 border-b-2 border-orange-500" : "hover:text-gray-900"}`}
-                >
-                  VER TODO
-                </button>
-                {categories.map(cat => (
+            <div className={`mt-4 md:mt-0 ${isMobileNavOpen ? 'flex' : 'hidden'} md:flex flex-col transition-all`}>
+              {!isManagingCats || !isAdmin ? (
+                <nav className="flex flex-col gap-4 text-xs font-bold text-gray-400 uppercase tracking-widest pb-2">
                   <button
-                    key={cat}
-                    onClick={() => setActiveCategory(cat)}
-                    className={`text-left transition-colors pb-2 md:pb-1 w-fit whitespace-nowrap shrink-0 ${activeCategory === cat ? "text-orange-500 border-b-2 border-orange-500" : "hover:text-gray-900"}`}
+                    onClick={() => { setActiveCategory("VER TODO"); setIsMobileNavOpen(false); }}
+                    className={`text-left transition-colors pb-1 w-fit ${activeCategory === "VER TODO" ? "text-orange-500 border-b-2 border-orange-500" : "hover:text-gray-900"}`}
                   >
-                    {cat}
+                    VER TODO
                   </button>
-                ))}
-              </nav>
-            ) : (
-              <div className="flex flex-col gap-3 mt-4">
-                <p className="text-[10px] text-gray-400 lowercase normal-case italic mb-2">Edita o elimina secciones existentes. Los productos de secciones eliminadas se moverán a "Otros".</p>
-                {categories.map((cat, i) => (
-                  <div key={i} className="flex items-center gap-2">
-                    {editingCatIndex === i ? (
-                      <>
-                        <input
-                          type="text"
-                          value={editingCatValue}
-                          onChange={(e) => setEditingCatValue(e.target.value)}
-                          className="flex-1 w-full border border-orange-500 bg-white px-2 py-1 text-gray-800 outline-none rounded-none text-xs"
-                          autoFocus
-                        />
-                        <button onClick={() => handleSaveCategoryEdit(i)} className="text-green-500 hover:text-green-600 p-1 bg-green-50 rounded"><IoCheckmarkOutline className="text-lg" /></button>
-                        <button onClick={() => setEditingCatIndex(null)} className="text-gray-400 hover:text-red-500 p-1 bg-red-50 rounded"><IoClose className="text-lg" /></button>
-                      </>
-                    ) : (
-                      <>
-                        <span className="flex-1 text-gray-800 truncate text-xs font-bold" title={cat}>{cat}</span>
-                        <button onClick={() => { setEditingCatIndex(i); setEditingCatValue(cat); }} className="text-gray-400 hover:text-orange-500"><IoCreateOutline className="text-lg" /></button>
-                        <button onClick={() => handleDeleteCategory(i)} className="text-gray-400 hover:text-red-500"><IoTrashOutline className="text-lg" /></button>
-                      </>
-                    )}
-                  </div>
-                ))}
+                  {categories.map(cat => (
+                    <button
+                      key={cat}
+                      onClick={() => { setActiveCategory(cat); setIsMobileNavOpen(false); }}
+                      className={`text-left transition-colors pb-1 w-fit ${activeCategory === cat ? "text-orange-500 border-b-2 border-orange-500" : "hover:text-gray-900"}`}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </nav>
+              ) : (
+                <div className="flex flex-col gap-3 mt-4">
+                  <p className="text-[10px] text-gray-400 lowercase normal-case italic mb-2">Edita o elimina secciones existentes. Los productos de secciones eliminadas se moverán a "Otros".</p>
+                  {categories.map((cat, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      {editingCatIndex === i ? (
+                        <>
+                          <input
+                            type="text"
+                            value={editingCatValue}
+                            onChange={(e) => setEditingCatValue(e.target.value)}
+                            className="flex-1 w-full border border-orange-500 bg-white px-2 py-1 text-gray-800 outline-none rounded-none text-xs"
+                            autoFocus
+                          />
+                          <button onClick={() => handleSaveCategoryEdit(i)} className="text-green-500 hover:text-green-600 p-1 bg-green-50 rounded"><IoCheckmarkOutline className="text-lg" /></button>
+                          <button onClick={() => setEditingCatIndex(null)} className="text-gray-400 hover:text-red-500 p-1 bg-red-50 rounded"><IoClose className="text-lg" /></button>
+                        </>
+                      ) : (
+                        <>
+                          <span className="flex-1 text-gray-800 truncate text-xs font-bold" title={cat}>{cat}</span>
+                          <button onClick={() => { setEditingCatIndex(i); setEditingCatValue(cat); }} className="text-gray-400 hover:text-orange-500"><IoCreateOutline className="text-lg" /></button>
+                          <button onClick={() => handleDeleteCategory(i)} className="text-gray-400 hover:text-red-500"><IoTrashOutline className="text-lg" /></button>
+                        </>
+                      )}
+                    </div>
+                  ))}
 
-                <div className="flex items-center gap-2 mt-4 pt-4 border-t border-gray-200 border-dashed">
-                  <input
-                    type="text"
-                    value={newCatValue}
-                    onChange={(e) => setNewCatValue(e.target.value)}
-                    placeholder="NUEVA SECCIÓN"
-                    className="flex-1 w-full border border-gray-200 bg-gray-50 px-2 py-1.5 text-gray-800 outline-none focus:border-orange-500 rounded-none text-xs"
-                    onKeyDown={(e) => e.key === 'Enter' && handleAddCategory()}
-                  />
-                  <button onClick={handleAddCategory} className="text-white hover:bg-orange-600 font-bold bg-orange-500 p-1.5 rounded"><IoAddOutline className="text-lg" /></button>
+                  <div className="flex items-center gap-2 mt-4 pt-4 border-t border-gray-200 border-dashed">
+                    <input
+                      type="text"
+                      value={newCatValue}
+                      onChange={(e) => setNewCatValue(e.target.value)}
+                      placeholder="NUEVA SECCIÓN"
+                      className="flex-1 w-full border border-gray-200 bg-gray-50 px-2 py-1.5 text-gray-800 outline-none focus:border-orange-500 rounded-none text-xs"
+                      onKeyDown={(e) => e.key === 'Enter' && handleAddCategory()}
+                    />
+                    <button onClick={handleAddCategory} className="text-white hover:bg-orange-600 font-bold bg-orange-500 p-1.5 rounded"><IoAddOutline className="text-lg" /></button>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>
