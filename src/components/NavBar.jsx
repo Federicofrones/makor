@@ -1,5 +1,5 @@
 import React from "react";
-import logoMakor from "/makor horizontal azul.svg";
+import logoMakor from "/makor-horizontal-azul.svg";
 import { IoSearchOutline, IoCartOutline } from "react-icons/io5";
 
 const NavBar = ({ cartCount, onOpenCart }) => {
