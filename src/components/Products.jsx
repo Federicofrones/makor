@@ -249,22 +249,22 @@ const Products = ({ addToCart, productos, setProductos, categories, setCategorie
             <h3 className="text-xl font-bold mb-2 text-center uppercase tracking-wide">{selectedProduct.titulo}</h3>
             <p className="text-sm text-gray-500 text-center leading-relaxed mb-6">{selectedProduct.descripcion}</p>
 
-            <div className="w-full flex items-center justify-between border-t border-gray-100 pt-6 mt-auto">
-              <div className="flex flex-col gap-1 text-left">
+            <div className="w-full flex flex-col sm:flex-row items-center justify-between border-t border-gray-100 pt-6 mt-auto gap-4 sm:gap-0">
+              <div className="flex flex-col gap-1 text-center sm:text-left w-full sm:w-auto">
                 <span className="text-xs text-gray-400 font-bold uppercase tracking-wider">Precio Unitario</span>
                 <span className="text-2xl font-black text-gray-900">${selectedProduct.precio}</span>
               </div>
 
-              <div className="flex gap-4">
-                <div className="flex items-center border border-gray-300 rounded overflow-hidden h-12">
-                  <button onClick={() => setQuantity(q => Math.max(1, q - 1))} className="px-4 hover:bg-gray-100 text-gray-600 font-bold transition-colors">-</button>
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto justify-center">
+                <div className="flex items-center border border-gray-300 rounded overflow-hidden h-12 w-full sm:w-auto justify-between">
+                  <button onClick={() => setQuantity(q => Math.max(1, q - 1))} className="px-6 sm:px-4 hover:bg-gray-100 text-gray-600 font-bold transition-colors h-full">-</button>
                   <input type="number" readOnly className="w-12 text-center text-gray-900 font-bold outline-none" value={quantity} />
-                  <button onClick={() => setQuantity(q => q + 1)} className="px-4 hover:bg-gray-100 text-gray-600 font-bold transition-colors">+</button>
+                  <button onClick={() => setQuantity(q => q + 1)} className="px-6 sm:px-4 hover:bg-gray-100 text-gray-600 font-bold transition-colors h-full">+</button>
                 </div>
 
                 <button
                   onClick={handleAddToCart}
-                  className="bg-orange-500 hover:bg-orange-600 text-white px-6 font-bold uppercase tracking-wider text-sm transition-colors h-12 inline-flex items-center gap-2"
+                  className="bg-orange-500 hover:bg-orange-600 text-white px-6 font-bold uppercase tracking-wider text-sm transition-colors h-12 flex justify-center items-center gap-2 w-full sm:w-auto shrink-0"
                 >
                   <IoBagHandleOutline className="text-lg" />
                   AGREGAR
